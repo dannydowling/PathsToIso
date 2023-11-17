@@ -20,7 +20,16 @@ class IsoCreator
         }
     }
 
-    public static void CreateIso(string rootFolderPath, string outputFolderPath)
+        else
+        {
+            args[0] = rootFolderPath;
+            args[1] = outputFolderPath;
+
+                CreateIso(rootFolderPath, outputFolderPath);
+        }
+    }
+
+    public void CreateIso(string rootFolderPath, string outputFolderPath)
     {
         //path logic 
         StringBuilder sb = new StringBuilder();
