@@ -51,7 +51,13 @@ class IsoCreator
 
                 CDBuilder builder = new CDBuilder();
                 builder.UseJoliet = true;
-                builder.VolumeIdentifier = allFolders[i];
+                string volumeName = allFolders[i].ToUpper();
+                if (volumeName.Length > 31)
+                {
+                    volumeName.Take(31);
+                }
+                volumeName.Remove(' ');
+                builder.VolumeIdentifier = volumeName;
 
                 // Add all files and subdirectories to the ISO
                 AddDirectoryContents(builder, sb.ToString(), outputFolderPath);
