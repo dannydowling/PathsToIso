@@ -1,6 +1,5 @@
 ﻿using DiscUtils.Iso9660;
 using System.Text;
-
 public class IsoCreator
 {
     public void Main(string[] args)
@@ -17,7 +16,6 @@ public class IsoCreator
             CreateIso(rootFolderPath, outputFolderPath);
         }
     }
-
     public void CreateIso(string rootFolderPath, string outputFolderPath)
     {
         StringBuilder sb = new StringBuilder();
@@ -26,7 +24,6 @@ public class IsoCreator
 
         // here we're trying to split up all the subfolders into only the top level ones under 
         // where the utility is pointed.
-
         for (int i = 0; i < allFolders[i].Split(rootFolderPath).Count(); i++)
         {            
             if (!Directory.Exists(outputFolderPath))
