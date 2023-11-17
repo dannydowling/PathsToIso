@@ -1,7 +1,7 @@
 ﻿using DiscUtils.Iso9660;
 using System.Text;
 
-class IsoCreator
+public class IsoCreator
 {
     public void Main(string[] args)
     {
@@ -61,7 +61,6 @@ class IsoCreator
 
                 // Add all files and subdirectories to the ISO
                 AddDirectoryContents(builder, sb.ToString(), outputFolderPath);
-
                 builder.Build(isoStream);
             }
 
