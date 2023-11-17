@@ -9,9 +9,7 @@ public class IsoCreator
         string outputFolderPath = "";
 
         if (args.Length! < 2)
-        {
-            { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
-        }
+        { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
         else
         {
             args[0] = rootFolderPath;
@@ -22,7 +20,6 @@ public class IsoCreator
 
     public void CreateIso(string rootFolderPath, string outputFolderPath)
     {
-        //path logic 
         StringBuilder sb = new StringBuilder();
 
         string[] allFolders = Directory.GetDirectories(rootFolderPath);
@@ -31,31 +28,22 @@ public class IsoCreator
         // where the utility is pointed.
 
         for (int i = 0; i < allFolders[i].Split(rootFolderPath).Count(); i++)
-        {
-            // Ensure the output directory exists
+        {            
             if (!Directory.Exists(outputFolderPath))
-            {
-                Directory.CreateDirectory(outputFolderPath);
-            }
-            
-            //remove the substring locating where on the source we are.
-            // the folders before the top level that we care about
-            sb.Remove(0, rootFolderPath.Length); 
+            {    Directory.CreateDirectory(outputFolderPath);    }
+
+            //remove the substring locating before the sourcePath.          
+            sb.Remove(0, rootFolderPath.Length);
 
             // Create a new ISO file for each folder in the source. Use the name in the string builder
-           
             string isoFilePath = Path.Combine(outputFolderPath, $"{allFolders[i]}.iso");
-
             using (FileStream isoStream = new FileStream(isoFilePath, FileMode.Create))
             {
-
                 CDBuilder builder = new CDBuilder();
                 builder.UseJoliet = true;
                 string volumeName = allFolders[i].ToUpper();
                 if (volumeName.Length > 31)
-                {
-                    volumeName.Take(31);
-                }
+                {   volumeName.Take(31);  }
                 volumeName.Remove(' ');
                 builder.VolumeIdentifier = volumeName;
 
@@ -65,7 +53,6 @@ public class IsoCreator
             }
 
             sb.Clear();
-
             Console.WriteLine($"ISO file created: {isoFilePath}");
         }
     }
@@ -82,6 +69,6 @@ public class IsoCreator
         {
             // Add files to the ISO
             builder.AddFile(targetPath + Path.GetFileName(file), file);
-        }      
+        }
     }
 }
