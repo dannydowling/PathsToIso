@@ -1,18 +1,27 @@
-﻿using DiscUtils;
-using DiscUtils.Compression;
-using System;
-using System.IO;
-using System.IO.Compression;
+﻿using DiscUtils.Iso9660;
 using System.Text;
 
 class IsoCreator
 {
     public void Main(string[] args)
     {
+        string rootFolderPath = "";
+        string outputFolderPath = "";
 
+        if (args.Length < 1)
+            if (args.Length <2)
+        { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
+
+        else
+        {
+            args[0] = rootFolderPath;
+            args[1] = outputFolderPath;
+
+                CreateIso(rootFolderPath, outputFolderPath);
+        }
     }
 
-    public static void CreateIso(string rootFolderPath, string outputFolderPath)
+    public void CreateIso(string rootFolderPath, string outputFolderPath)
     {
         //path logic 
         StringBuilder sb = new StringBuilder();
@@ -46,6 +55,7 @@ class IsoCreator
 
                     using (FileStream isoStream = new FileStream(isoFilePath, FileMode.Create))
                     {
+
                         CDBuilder builder = new CDBuilder();
                         builder.UseJoliet = true;
                         builder.VolumeIdentifier = folderName;
@@ -79,4 +89,5 @@ class IsoCreator
     }
 
 }
+
 
