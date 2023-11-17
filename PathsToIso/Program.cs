@@ -8,7 +8,7 @@ class IsoCreator
         string rootFolderPath = "";
         string outputFolderPath = "";
 
-        if (args.Length! < 2)
+        if (args.Length !< 2)
         {
             { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
         }
@@ -17,15 +17,6 @@ class IsoCreator
             args[0] = rootFolderPath;
             args[1] = outputFolderPath;
             CreateIso(rootFolderPath, outputFolderPath);
-        }
-    }
-
-        else
-        {
-            args[0] = rootFolderPath;
-            args[1] = outputFolderPath;
-
-                CreateIso(rootFolderPath, outputFolderPath);
         }
     }
 
@@ -105,5 +96,4 @@ class IsoCreator
             AddDirectoryContents(builder, subdirectory, $"{targetPath}{subdirectoryName}/");
         }
     }
-
 }
