@@ -8,9 +8,13 @@ class IsoCreator
         string rootFolderPath = "";
         string outputFolderPath = "";
 
-        if (args.Length < 1)
-            if (args.Length <2)
+      if (args.Length < 1)
+{
+    if (args.Length < 2)
+    {
         { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
+    }
+}
 
         else
         {
