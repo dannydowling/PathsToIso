@@ -29,10 +29,10 @@ public class IsoCreator
             if (!Directory.Exists(outputFolderPath))
             {    Directory.CreateDirectory(outputFolderPath);    }
 
-            //remove the substring locating before the sourcePath.          
-            sb.Remove(0, rootFolderPath.Length);
-
-            // Create a new ISO file for each folder in the source. Use the name in the string builder
+            sb.Append(allFolders[i]);                   // c:\sources\things\whatsit...
+            sb.Remove(0, rootFolderPath.Length);        // remove c:\sources\things\
+         
+            // create whatsit.iso, use recursion to the builder
             string isoFilePath = Path.Combine(outputFolderPath, $"{allFolders[i]}.iso");
             using (FileStream isoStream = new FileStream(isoFilePath, FileMode.Create))
             {
