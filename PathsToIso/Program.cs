@@ -8,69 +8,78 @@ class IsoCreator
         string rootFolderPath = "";
         string outputFolderPath = "";
 
-        if (args.Length < 1)
-            if (args.Length <2)
-        { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
-
+        if (args.Length! < 2)
+        {
+            { Console.WriteLine("To use this, specify a source folder and a destination folder."); }
+        }
         else
         {
             args[0] = rootFolderPath;
             args[1] = outputFolderPath;
-
-                CreateIso(rootFolderPath, outputFolderPath);
+            CreateIso(rootFolderPath, outputFolderPath);
         }
     }
 
-    public void CreateIso(string rootFolderPath, string outputFolderPath)
+    public static void CreateIso(string rootFolderPath, string outputFolderPath)
     {
         //path logic 
         StringBuilder sb = new StringBuilder();
         List<string> folderNames = new List<string>();
 
-        foreach (var folderPath in Directory.GetDirectories(rootFolderPath))
+        string[] allFolders = Directory.GetDirectories(rootFolderPath);
+        for (int f = 0; f < allFolders.Length; f++)
         {
-            folderNames.Add(folderPath); // add the full path of all the folders to the list
-            sb.Clear();
-        }
-
-        for (int i = 0; i < folderNames.Count; i++)
-        {
-            //split the part of the remaining path up by folders
-            string[] subStrings = folderNames[i].Split(rootFolderPath + '/');
-
-            foreach (var item in subStrings)
+            int countOfFolderDepth = allFolders[f].Split('/').Count(); //create a count of the number of folders in...
+            if (countOfFolderDepth == 2)
             {
-                // Ensure the output directory exists
-                if (!Directory.Exists(outputFolderPath))
-                {
-                    Directory.CreateDirectory(outputFolderPath);
-                }
 
-                // Loop through each folder in the specified path
                 foreach (var folderPath in Directory.GetDirectories(rootFolderPath))
                 {
-                    // Create a new ISO file for each folder
-                    string folderName = Path.GetFileName(folderPath);
-                    string isoFilePath = Path.Combine(outputFolderPath, $"{folderName}.iso");
+                    folderNames.Add(folderPath); // add the full path of all the folders to the list
+                    sb.Clear();
+                }
 
-                    using (FileStream isoStream = new FileStream(isoFilePath, FileMode.Create))
+                for (int i = 0; i < folderNames.Count; i++)
+                {
+                    //split the part of the remaining path up by folders
+                    string[] subStrings = folderNames[i].Split(rootFolderPath + '/');
+
+                    foreach (var item in subStrings)
                     {
+                        // Ensure the output directory exists
+                        if (!Directory.Exists(outputFolderPath))
+                        {
+                            Directory.CreateDirectory(outputFolderPath);
+                        }
 
-                        CDBuilder builder = new CDBuilder();
-                        builder.UseJoliet = true;
-                        builder.VolumeIdentifier = folderName;
+                        // Loop through each folder in the specified path
+                        foreach (var folderPath in Directory.GetDirectories(rootFolderPath))
+                        {
+                            // Create a new ISO file for each folder
+                            string folderName = Path.GetFileName(folderPath);
+                            string isoFilePath = Path.Combine(outputFolderPath, $"{folderName}.iso");
 
-                        // Add all files and subdirectories to the ISO
-                        AddDirectoryContents(builder, folderPath, outputFolderPath);
+                            using (FileStream isoStream = new FileStream(isoFilePath, FileMode.Create))
+                            {
 
-                        builder.Build(isoStream);
+                                CDBuilder builder = new CDBuilder();
+                                builder.UseJoliet = true;
+                                builder.VolumeIdentifier = folderName;
+
+                                // Add all files and subdirectories to the ISO
+                                AddDirectoryContents(builder, folderPath, outputFolderPath);
+
+                                builder.Build(isoStream);
+                            }
+
+                            Console.WriteLine($"ISO file created: {isoFilePath}");
+                        }
                     }
-
-                    Console.WriteLine($"ISO file created: {isoFilePath}");
                 }
             }
         }
     }
+
 
     private static void AddDirectoryContents(CDBuilder builder, string sourcePath, string targetPath)
     {
@@ -89,4 +98,3 @@ class IsoCreator
     }
 
 }
-
